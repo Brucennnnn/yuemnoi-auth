@@ -1,0 +1,4 @@
+config/** 
+.goreload
+.pns.cjs
+.pnp.cjs
