@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/sds-2/config"
-	models "github.com/sds-2/models"
+	"github.com/sds-2/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -20,5 +20,5 @@ func InitPostgreSQL(cfg *config.Config) *gorm.DB {
 }
 
 func Migration(db *gorm.DB) {
-	db.AutoMigrate(&models.Item{})
+	db.AutoMigrate(&model.Item{})
 }

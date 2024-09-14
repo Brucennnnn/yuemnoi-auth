@@ -1,15 +1,14 @@
 package items
 
-import "github.com/sds-2/models"
+import "github.com/sds-2/model"
 
 type ItemsDomain interface {
-	GetAll() ([]models.Item, error)
+	GetAll() ([]model.Item, error)
 }
 
-type ItemsDomainImpl struct {
-}
+type ItemsDomainImpl struct{}
 
-func (i ItemsDomainImpl) GetAll() ([]models.Item, error) {
+func (i ItemsDomainImpl) GetAll() ([]model.Item, error) {
 	return nil, nil
 }
 
