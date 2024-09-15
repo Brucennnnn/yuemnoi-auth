@@ -5,21 +5,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type reviewRepository interface {
-	ViewUserReviews(userId int) ([]model.Review, error)
-	ReviewUser(review model.Review) (model.Review, error)
+type ReviewRepository interface {
+	GetReviewsByUserId(userId int) ([]model.Review, error)
+	CreateReview(review model.Review) (model.Review, error)
 }
 
-type reviewRepositoryImpl struct {
+type ReviewRepositoryImpl struct {
 	db *gorm.DB
 }
 
-func NewReviewRepository(db *gorm.DB) *reviewRepositoryImpl {
-	return &reviewRepositoryImpl{
+func NewReviewRepository(db *gorm.DB) *ReviewRepositoryImpl {
+	return &ReviewRepositoryImpl{
 		db: db,
 	}
 }
-func (i reviewRepositoryImpl) ViewUserReviews(userId int) ([]model.Review, error) {
+func (i ReviewRepositoryImpl) GetReviewsByUserId(userId int) ([]model.Review, error) {
 	var reviews []model.Review
 	if err := i.db.Where("reviewee_id = ?", userId).Find(&reviews).Error; err != nil {
 		return nil, err
@@ -27,8 +27,7 @@ func (i reviewRepositoryImpl) ViewUserReviews(userId int) ([]model.Review, error
 	return reviews, nil
 }
 
-
-func (i reviewRepositoryImpl) ReviewUser(review model.Review) (model.Review, error) {
+func (i ReviewRepositoryImpl) CreateReview(review model.Review) (model.Review, error) {
 	if err := i.db.Create(&review).Error; err != nil {
 		return model.Review{}, err
 	}

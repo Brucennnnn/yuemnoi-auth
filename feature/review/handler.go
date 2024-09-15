@@ -16,7 +16,7 @@ func NewReviewHandler(reviewDomain ReviewDomain) *ReviewHandler {
 	}
 }
 
-func (h *ReviewHandler) ViewUserReviews(c *fiber.Ctx) error {
+func (h *ReviewHandler) GetReviewsByUserId(c *fiber.Ctx) error {
 	userIdStr := c.Params("userId")
 	userId, err := strconv.Atoi(userIdStr)
 	if err != nil {
@@ -24,15 +24,15 @@ func (h *ReviewHandler) ViewUserReviews(c *fiber.Ctx) error {
 			"error": "Invalid user ID",
 		})
 	}
-    reviews, err := h.reviewDomain.ViewUserReviews(userId)
+    reviews, err := h.reviewDomain.GetReviewsByUserId(userId)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Unable to retrieve reviews",
 		})
 	}
-	var response []ViewUserReviewsResponse
+	var response []GetReviewsByUserIdResponse
 	for _, review := range reviews {
-		response = append(response, ViewUserReviewsResponse{
+		response = append(response, GetReviewsByUserIdResponse{
 			ID: review.ID,
 			Rating:review.Rating,
 			Description:review.Description,
@@ -42,11 +42,16 @@ func (h *ReviewHandler) ViewUserReviews(c *fiber.Ctx) error {
 	return c.JSON(response)
 }
 
-func (h *ReviewHandler) ReviewUser(c *fiber.Ctx) error {
-	body := new(ReviewUserRequest)
+func (h *ReviewHandler) CreateReview(c *fiber.Ctx) error {
+	body := new(CreateReviewRequest)
 	if err := c.BodyParser(body); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": "Invalid request payload",
+		})
+	}
+	if body.Rating <= 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Rating must be positive",
 		})
 	}
 	review := model.Review{
@@ -55,7 +60,7 @@ func (h *ReviewHandler) ReviewUser(c *fiber.Ctx) error {
 		ReviewerID:   body.ReviewerID,
 		RevieweeID:   body.RevieweeID,
 	}
-	res, err := h.reviewDomain.ReviewUser(review)
+	res, err := h.reviewDomain.CreateReview(review)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Unable to create review",

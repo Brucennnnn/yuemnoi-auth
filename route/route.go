@@ -24,7 +24,7 @@ func (h *Handler) RegisterRouter(r fiber.Router) {
 	}
 	{
 		reviewRouter := r.Group("/review")
-		reviewRouter.Get("/user/:userId", h.reviewHandler.ViewUserReviews) 
-		reviewRouter.Post("/", h.reviewHandler.ReviewUser)             
+		reviewRouter.Get("/user/:userId", h.reviewHandler.GetReviewsByUserId) 
+		reviewRouter.Post("/", h.reviewHandler.CreateReview)             
 	}
 }
