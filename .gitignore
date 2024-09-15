@@ -1,4 +1,4 @@
-config/** 
+config/**.yaml 
 .goreload
 .pns.cjs
 .pnp.cjs

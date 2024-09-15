@@ -31,13 +31,13 @@ func InitDI(ctx context.Context, cfg *config.Config) (r *route.Handler, err erro
 		}
 	}()
 
-	//db
+	// db
 	_ = db.InitPostgreSQL(cfg)
 
-	//domain
+	// domain
 	itemsDomain := items.NewItemsDomain()
 
-	//handler
+	// handler
 	itemsHandler := items.NewItemsHandler(itemsDomain)
 
 	r = route.NewHandler(itemsHandler)
