@@ -2,22 +2,21 @@ package route
 
 import (
 	"github.com/gofiber/fiber/v2"
-
-	"github.com/sds-2/feature/items"
+	"github.com/sds-2/feature/item"
 )
 
 type Handler struct {
-	ItemsHandler *items.ItemsHandler
+	itemHandler *item.ItemHandler
 }
 
-func NewHandler(ItemsHandler *items.ItemsHandler) *Handler {
+func NewHandler(itemHandler *item.ItemHandler) *Handler {
 	return &Handler{
-		ItemsHandler: ItemsHandler,
+		itemHandler: itemHandler,
 	}
 }
 func (h *Handler) RegisterRouter(r fiber.Router) {
 	{
-		itemsRouter := r.Group("/items")
-		itemsRouter.Get("/", h.ItemsHandler.GetAllItems)
+		itemRouter := r.Group("/item")
+		itemRouter.Get("/", h.itemHandler.GetAllitem)
 	}
 }

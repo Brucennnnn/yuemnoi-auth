@@ -1,19 +1,19 @@
 package route
 
-// func ItemsRouter(app *fiber.App, db *gorm.DB) {
-// 	// Get all items
-// 	app.Get("/items", func(c *fiber.Ctx) error {
-// 		var items []model.Item
-// 		if err := db.Find(&items).Error; err != nil {
+// func itemRouter(app *fiber.App, db *gorm.DB) {
+// 	// Get all item
+// 	app.Get("/item", func(c *fiber.Ctx) error {
+// 		var item []model.Item
+// 		if err := db.Find(&item).Error; err != nil {
 // 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-// 				"error": "Unable to retrieve items",
+// 				"error": "Unable to retrieve item",
 // 			})
 // 		}
-// 		return c.JSON(items)
+// 		return c.JSON(item)
 // 	})
 
 // 	// Create a new item
-// 	app.Post("/items", func(c *fiber.Ctx) error {
+// 	app.Post("/item", func(c *fiber.Ctx) error {
 // 		var item model.Item
 // 		if err := c.BodyParser(&item); err != nil {
 // 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -21,7 +21,7 @@ package route
 // 			})
 // 		}
 
-// 		if err := db.Table("items").Create(&item).Error; err != nil {
+// 		if err := db.Table("item").Create(&item).Error; err != nil {
 // 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 // 				"error": "Unable to create item",
 // 			})
@@ -31,7 +31,7 @@ package route
 // 	})
 
 // 	// Update an item by ID
-// 	app.Put("/items/:id", func(c *fiber.Ctx) error {
+// 	app.Put("/item/:id", func(c *fiber.Ctx) error {
 // 		id := c.Params("id")
 // 		var item model.Item
 // 		if err := db.First(&item, id).Error; err != nil {
@@ -56,7 +56,7 @@ package route
 // 	})
 
 // 	// Delete an item by ID
-// 	app.Delete("/items/:id", func(c *fiber.Ctx) error {
+// 	app.Delete("/item/:id", func(c *fiber.Ctx) error {
 // 		id := c.Params("id")
 // 		if err := db.Delete(&model.Item{}, id).Error; err != nil {
 // 			return c.Status(fiber.StatusNotFound).JSON(fiber.Map{

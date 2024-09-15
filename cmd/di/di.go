@@ -7,7 +7,7 @@ import (
 
 	"github.com/sds-2/config"
 	"github.com/sds-2/db"
-	"github.com/sds-2/feature/items"
+	"github.com/sds-2/feature/item"
 	"github.com/sds-2/route"
 )
 
@@ -32,15 +32,18 @@ func InitDI(ctx context.Context, cfg *config.Config) (r *route.Handler, err erro
 	}()
 
 	// db
-	_ = db.InitPostgreSQL(cfg)
+	dbPG := db.InitPostgreSQL(cfg)
+
+	// repository
+	itemRepository := item.NewitemRepository(dbPG)
 
 	// domain
-	itemsDomain := items.NewItemsDomain()
+	itemDomain := item.NewitemDomain(itemRepository)
 
 	// handler
-	itemsHandler := items.NewItemsHandler(itemsDomain)
+	itemHandler := item.NewItemHandler(itemDomain)
 
-	r = route.NewHandler(itemsHandler)
+	r = route.NewHandler(itemHandler)
 
 	return r, nil
 }
