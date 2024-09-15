@@ -3,3 +3,4 @@ config/**.yaml
 .pns.cjs
 .pnp.cjs
 .yarn
+.goreload.exe

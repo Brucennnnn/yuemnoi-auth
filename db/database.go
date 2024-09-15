@@ -20,5 +20,5 @@ func InitPostgreSQL(cfg *config.Config) *gorm.DB {
 }
 
 func Migration(db *gorm.DB) {
-	db.AutoMigrate(&model.Item{}, &model.User{})
+	db.AutoMigrate(&model.Item{}, &model.User{}, &model.Review{})
 }

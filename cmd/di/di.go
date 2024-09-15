@@ -8,6 +8,7 @@ import (
 	"github.com/sds-2/config"
 	"github.com/sds-2/db"
 	"github.com/sds-2/feature/item"
+	"github.com/sds-2/feature/review"
 	"github.com/sds-2/route"
 )
 
@@ -36,14 +37,17 @@ func InitDI(ctx context.Context, cfg *config.Config) (r *route.Handler, err erro
 
 	// repository
 	itemRepository := item.NewitemRepository(dbPG)
+	reviewRepository := review.NewReviewRepository(dbPG)
 
 	// domain
 	itemDomain := item.NewitemDomain(itemRepository)
+	reviewDomain := review.NewReviewDomain(reviewRepository)
 
 	// handler
 	itemHandler := item.NewItemHandler(itemDomain)
+	reviewHandler := review.NewReviewHandler(reviewDomain)
 
-	r = route.NewHandler(itemHandler)
+	r = route.NewHandler(itemHandler,reviewHandler)
 
 	return r, nil
 }
