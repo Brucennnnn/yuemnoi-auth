@@ -1,0 +1,26 @@
+### Create a new user
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "student_id": "12346",
+  "name": "June Die",
+  "mail": "June.die@example.com"
+}
+
+### Get user by ID
+GET http://localhost:3000/user/12346
+
+### Update user details
+PATCH http://localhost:3000/user/12346
+Content-Type: application/json
+
+{
+  "phone_number": "0123456789"
+}
+
+### Delete user by ID
+DELETE http://localhost:3000/user/12346
+
+### List all users (if applicable)
+GET http://localhost:3000/user
