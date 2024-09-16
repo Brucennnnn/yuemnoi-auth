@@ -57,7 +57,7 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 }
 
 // GetUser handles fetching a user by ID.
-func (h *UserHandler) GetUser(c *fiber.Ctx) error {
+func (h *UserHandler) ViewUserProfile(c *fiber.Ctx) error {
 	studentID := c.Params("student_id")
 	user, err := h.service.GetUserByID(studentID)
 	if err != nil {
@@ -76,7 +76,7 @@ func (h *UserHandler) GetUser(c *fiber.Ctx) error {
 }
 
 // UpdateUser handles updating an existing user.
-func (h *UserHandler) UpdateUser(c *fiber.Ctx) error {
+func (h *UserHandler) ManageUserProfile(c *fiber.Ctx) error {
 	studentID := c.Params("student_id")
 	var userDTO UserDTO
 	if err := c.BodyParser(&userDTO); err != nil {

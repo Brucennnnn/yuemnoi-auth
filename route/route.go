@@ -45,8 +45,8 @@ func (h *Handler) RegisterRouter(r fiber.Router) {
 		userRouter := r.Group("/user")
 		userRouter.Post("/", h.userHandler.CreateUser)
 		userRouter.Get("/", h.userHandler.GetUsers)
-		userRouter.Get("/:student_id", h.userHandler.GetUser)
-		userRouter.Patch("/:student_id", h.userHandler.UpdateUser)
+		userRouter.Get("/:student_id", h.userHandler.ViewUserProfile)
+		userRouter.Patch("/:student_id", h.userHandler.ManageUserProfile)
 		userRouter.Delete("/:student_id", h.userHandler.DeleteUser)
 	}
 }
