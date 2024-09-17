@@ -31,13 +31,6 @@ func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 		Name:      userDTO.Name,
 		Mail:      userDTO.Mail,
 	}
-	fmt.Println('3')
-	// user, err := h.service.CreateUser(user)
-	fmt.Println('4')
-
-	// if err != nil {
-	// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create user"})
-	// }
 
 	return c.Status(fiber.StatusCreated).JSON(userDTO)
 }

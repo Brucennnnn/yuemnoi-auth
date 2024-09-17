@@ -33,21 +33,23 @@ func (r *userRepository) FindAllUsers() ([]model.User, error) {
 }
 
 func (r *userRepository) CreateUser(user model.User) (model.User, error) {
-	if err := r.db.Create(user).Error; err != nil {
+	if err := r.db.Create(&user).Error; err != nil {
 		return model.User{}, err
 	}
 	return user, nil
 }
 
 func (r *userRepository) UpdateUser(user model.User) (model.User, error) {
-	if err := r.db.Save(user).Error; err != nil {
+	if err := r.db.Save(&user).Error; err != nil {
 		return model.User{}, err
 	}
 	return user, nil
 }
 
 func (r *userRepository) DeleteUser(studentID string) error {
-	if err := r.db.Delete(&model.User{}, "student_id = ?", studentID).Error; err != nil {
+	if err := r.db.Delete(&model.User{
+		StudentID: studentID,
+	}).Error; err != nil {
 		return err
 	}
 	return nil
