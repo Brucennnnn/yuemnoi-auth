@@ -38,5 +38,15 @@ func main() {
 
 	handler.RegisterRouter(app)
 
-	app.Listen(":3000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if not specified
+	}
+
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "0.0.0.0" // Default host if not specified
+	}
+
+	app.Listen(host + ":" + port)
 }

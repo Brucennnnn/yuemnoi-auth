@@ -2,6 +2,7 @@ package review
 
 import (
 	"fmt"
+
 	"github.com/sds-2/model"
 )
 
@@ -26,11 +27,10 @@ func (i *ReviewDomainImpl) GetReviewsByUserId(userId int) ([]model.Review, error
 	return reviews, nil
 }
 
-func (i *ReviewDomainImpl) CreateReview(review model.Review) ( model.Review, error) {
+func (i *ReviewDomainImpl) CreateReview(review model.Review) (model.Review, error) {
 	review, err := i.reviewRepository.CreateReview(review)
 	if err != nil {
 		return model.Review{}, fmt.Errorf("failed to create review from review domain: %w", err)
 	}
 	return review, nil
 }
-
