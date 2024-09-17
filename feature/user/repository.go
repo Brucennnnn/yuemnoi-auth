@@ -5,41 +5,50 @@ import (
 	"gorm.io/gorm"
 )
 
-// userRepository implements UserRepository interface.
+type UserRepository interface {
+	FindUserByID(studentID string) (model.User, error)
+	FindAllUsers() ([]model.User, error)
+	CreateUser(user model.User) (model.User, error)
+	UpdateUser(user model.User) (model.User, error)
+	DeleteUser(studentID string) error
+}
 type userRepository struct {
 	db *gorm.DB
 }
 
-// NewUserRepository creates a new userRepository instance.
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{db: db}
 }
 
-// FindByID retrieves a user by ID.
-func (r *userRepository) FindByID(studentID string) (*model.User, error) {
+func (r *userRepository) FindUserByID(studentID string) (model.User, error) {
 	var user model.User
 	err := r.db.First(&user, "student_id = ?", studentID).Error
 	return &user, err
 }
 
-// FindAll retrieves all users.
-func (r *userRepository) FindAll() ([]model.User, error) {
+func (r *userRepository) FindAllUsers() ([]model.User, error) {
 	var users []model.User
 	err := r.db.Find(&users).Error
 	return users, err
 }
 
-// Create adds a new user to the database.
-func (r *userRepository) Create(user *model.User) error {
-	return r.db.Create(user).Error
+func (r *userRepository) CreateUser(user model.User) (model.User, error) {
+	if err := r.db.Create(user).Error; err != nil {
+		return model.User{}, err
+	}
+	return user, nil
 }
 
-// Update updates an existing user.
-func (r *userRepository) Update(user *model.User) error {
-	return r.db.Save(user).Error
+func (r *userRepository) UpdateUser(user model.User) (model.User, error) {
+	if err := r.db.Save(user).Error; err != nil {
+		return model.User{}, err
+	}
+	return user, nil
 }
 
-// Delete removes a user by ID.
-func (r *userRepository) Delete(studentID string) error {
-	return r.db.Delete(&model.User{}, "student_id = ?", studentID).Error
+func (r *userRepository) DeleteUser(studentID string) error {
+	if err := r.db.Delete(&model.User{}, "student_id = ?", studentID).Error; err != nil {
+		return err
+	}
+	return nil
 }

@@ -3,9 +3,9 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "student_id": "12346",
-  "name": "June Die",
-  "mail": "June.die@example.com"
+  "student_id": "00001",
+  "name": "June1 Die",
+  "mail": "June1.die@example.com"
 }
 
 ### Get user by ID

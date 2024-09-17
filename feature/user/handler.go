@@ -1,6 +1,8 @@
 package user
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sds-2/model"
 )
@@ -18,6 +20,8 @@ func NewUserHandler(service UserDomain) *UserHandler {
 // CreateUser handles the creation of a new user.
 func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 	var userDTO CreateUserDTO
+	fmt.Println('1')
+
 	if err := c.BodyParser(&userDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
@@ -27,17 +31,19 @@ func (h *UserHandler) CreateUser(c *fiber.Ctx) error {
 		Name:      userDTO.Name,
 		Mail:      userDTO.Mail,
 	}
+	fmt.Println('3')
+	// user, err := h.service.CreateUser(user)
+	fmt.Println('4')
 
-	if err := h.service.CreateUser(&user); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create user"})
-	}
+	// if err != nil {
+	// 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create user"})
+	// }
 
 	return c.Status(fiber.StatusCreated).JSON(userDTO)
 }
 
-// GetUsers handles fetching all users.
 func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
-	users, err := h.service.GetAllUsers()
+	users, err := h.service.GetAllUsers() // Ensure h.service is properly initialized
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch users"})
 	}
@@ -56,7 +62,6 @@ func (h *UserHandler) GetUsers(c *fiber.Ctx) error {
 	return c.JSON(userDTOs)
 }
 
-// GetUser handles fetching a user by ID.
 func (h *UserHandler) ViewUserProfile(c *fiber.Ctx) error {
 	studentID := c.Params("student_id")
 	user, err := h.service.GetUserByID(studentID)
@@ -75,7 +80,6 @@ func (h *UserHandler) ViewUserProfile(c *fiber.Ctx) error {
 	return c.JSON(userDTO)
 }
 
-// UpdateUser handles updating an existing user.
 func (h *UserHandler) ManageUserProfile(c *fiber.Ctx) error {
 	studentID := c.Params("student_id")
 	var userDTO UserDTO
@@ -83,7 +87,6 @@ func (h *UserHandler) ManageUserProfile(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
 	}
 
-	// Fetch existing user data first
 	user, err := h.service.GetUserByID(studentID)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "User not found"})
