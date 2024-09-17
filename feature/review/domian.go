@@ -20,7 +20,7 @@ func NewReviewDomain(reviewRepository ReviewRepository) *ReviewDomainImpl {
 }
 
 func (i *ReviewDomainImpl) GetReviewsByUserId(userId int) ([]model.Review, error) {
-	fmt.Println("hello")
+	fmt.Println("hellooo")
 	reviews, err := i.reviewRepository.GetReviewsByUserId(userId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get reviews from review domain: %w", err)
