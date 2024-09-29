@@ -10,6 +10,7 @@ import (
 	"github.com/sds-2/feature/auth"
 	"github.com/sds-2/feature/item"
 	"github.com/sds-2/feature/review"
+	"github.com/sds-2/feature/user"
 	"github.com/sds-2/route"
 )
 
@@ -39,6 +40,7 @@ func InitDI(ctx context.Context, cfg *config.Config) (r *route.Handler, err erro
 	// repository
 	itemRepository := item.NewitemRepository(dbPG)
 	reviewRepository := review.NewReviewRepository(dbPG)
+	userRepository := user.NewUserRepository(dbPG)
 
 	// domain
 	itemDomain := item.NewitemDomain(itemRepository)
@@ -47,9 +49,10 @@ func InitDI(ctx context.Context, cfg *config.Config) (r *route.Handler, err erro
 	// handler
 	itemHandler := item.NewItemHandler(itemDomain)
 	reviewHandler := review.NewReviewHandler(reviewDomain)
-	authHandler := auth.NewAuthHandler(cfg)
+	authHandler := auth.NewAuthHandler(cfg, userRepository)
+	userHandler := user.NewUserHandler(userRepository)
 
-	r = route.NewHandler(itemHandler, reviewHandler, authHandler)
+	r = route.NewHandler(itemHandler, reviewHandler, authHandler, userHandler)
 
 	return r, nil
 }

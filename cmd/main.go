@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/sds-2/cmd/di"
 	"github.com/sds-2/config"
@@ -33,10 +32,9 @@ func main() {
 		return
 	}
 	app.Use(requestid.New(),
-		middleware.SetupUserContext,
-		adaptor.HTTPMiddleware(middleware.AuthMiddleware))
+		middleware.SetupUserContext)
 
-	handler.RegisterRouter(app)
+	handler.RegisterRouter(app, cfg)
 
 	port := os.Getenv("PORT")
 	if port == "" {
