@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -9,8 +10,15 @@ import (
 type Config struct {
 	PGDB              DBConfig          `mapstructure:"pg"`
 	GoogleOAuthConfig GoogleOAuthConfig `mapstructure:"googleOAuth"`
+	Cookie            Cookie            `mapstructure:"cookie"`
+	Environment       string            `mapstructure:"environment"`
+	AppName           string            `mapstructure:"appName"`
 }
-
+type Cookie struct {
+	CookieNameAuth string        `mapstructure:"cookieNameAuth"`
+	Secret         string        `mapstructure:"secret"`
+	Expires        time.Duration `mapstructure:"expires"`
+}
 type DBConfig struct {
 	User     string `mapstructure:"user"`
 	Password string `mapstructure:"password"`
@@ -20,17 +28,17 @@ type DBConfig struct {
 }
 
 type GoogleOAuthConfig struct {
-	ClientID         string   `mapstructure:"ClientID"`
-	ClientSecret     string   `mapstructure:"ClientSecret"`
-	RedirectURL      string   `mapstructure:"RedirectURL"`
-	Scopes           []string `mapstructure:"Scopes"`
+	ClientID         string   `mapstructure:"clientID"`
+	ClientSecret     string   `mapstructure:"clientSecret"`
+	RedirectURL      string   `mapstructure:"redirectURL"`
+	Scopes           []string `mapstructure:"scopes"`
 	Endpoint         Endpoint `mapstructure:"endpoint"`
 	OauthStateString string   `mapstructure:"oauthStateString"`
 }
 
 type Endpoint struct {
-	AuthURL  string `mapstructure:"AuthURL"`
-	TokenURL string `mapstructure:"TokenURL"`
+	AuthURL  string `mapstructure:"authURL"`
+	TokenURL string `mapstructure:"tokenURL"`
 }
 
 func Load() *Config {
