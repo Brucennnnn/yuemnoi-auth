@@ -22,7 +22,8 @@ func AuthMiddleware(config *config.Config) fiber.Handler {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
-			return config.Cookie.Secret, nil
+			secretKey := []byte(config.Cookie.Secret)
+			return secretKey, nil
 		})
 
 		if err != nil {

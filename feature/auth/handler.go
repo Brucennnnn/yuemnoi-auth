@@ -83,20 +83,19 @@ func (h *AuthHandler) OAuthCallback(c *fiber.Ctx) error {
 	cookieToken, err := createToken(user.ID, h.cfg)
 	if err != nil {
 		return c.SendString("Internal server error: failed to create token")
-
 	}
 	cookie := new(fiber.Cookie)
 	cookie.Name = h.cfg.Cookie.CookieNameAuth
 	cookie.Value = cookieToken
 	cookie.Expires = time.Now().Add(h.cfg.Cookie.Expires) // Set cookie expiry
 	cookie.HTTPOnly = true                                // Make the cookie inaccessible to JavaScript
-	cookie.Secure = true
-	if h.cfg.Environment == "dev" {
+	cookie.Secure = true                                  // Enable secure (HTTPS) cookies
+	if h.cfg.Environment == "dev" || h.cfg.Environment == "test" {
 		cookie.Secure = false
 	}
 	cookie.SameSite = "Strict" // Prevent CSRF
-
 	c.Cookie(cookie)
+
 	return c.Redirect("/", 302)
 }
 
