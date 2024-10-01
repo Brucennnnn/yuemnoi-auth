@@ -1,9 +1,8 @@
 package review
 
 type CreateReviewRequest struct {
-	Rating      int `json:"rating"`
+	Rating      int    `json:"rating"`
 	Description string `json:"description"`
-	ReviewerID  int    `json:"reviewer_id"` 
 	RevieweeID  int    `json:"reviewee_id"`
 }
 
