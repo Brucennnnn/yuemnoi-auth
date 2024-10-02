@@ -7,7 +7,7 @@ import (
 
 type ReviewRepository interface {
 	GetReviewsByUserId(userId int) ([]model.Review, error)
-	CreateReview(review model.Review) (model.Review, error)
+	CreateReview(review model.Review) (error)
 }
 
 type ReviewRepositoryImpl struct {
@@ -27,9 +27,9 @@ func (i ReviewRepositoryImpl) GetReviewsByUserId(userId int) ([]model.Review, er
 	return reviews, nil
 }
 
-func (i ReviewRepositoryImpl) CreateReview(review model.Review) (model.Review, error) {
+func (i ReviewRepositoryImpl) CreateReview(review model.Review) (error) {
 	if err := i.db.Create(&review).Error; err != nil {
-		return model.Review{}, err
+		return err
 	}
-	return review, nil
+	return  nil
 }

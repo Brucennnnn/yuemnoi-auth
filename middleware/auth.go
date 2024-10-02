@@ -31,7 +31,7 @@ func AuthMiddleware(config *config.Config) fiber.Handler {
 		}
 
 		if claims, ok := token.Claims.(*model.AuthTokenClaim); ok && token.Valid {
-			c.Set("user_id", strconv.Itoa(claims.UserID))
+			c.Locals("user_id", strconv.Itoa(claims.UserID))
 
 		} else {
 			return fiber.NewError(fiber.StatusUnauthorized, "Invalid token")
